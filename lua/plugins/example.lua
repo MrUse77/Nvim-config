@@ -16,7 +16,6 @@ return {
     "LazyVim/LazyVim",
     opts = { colorscheme = "gruvbox" },
   },
-
   -- change trouble config
   {
     "folke/trouble.nvim",
@@ -79,6 +78,7 @@ return {
     opts = {
       ---@type lspconfig.options
       servers = {
+        neocmake = {},
         -- pyright will be automatically installed with mason and loaded with lspconfig
         clangd = {
           keys = {
@@ -242,6 +242,8 @@ return {
     opts = {
       ensure_installed = {
         "clangd",
+        "cmakelang",
+        "cmakelint",
         "stylua",
         "shellcheck",
         "shfmt",
