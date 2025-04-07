@@ -47,7 +47,25 @@ return {
       }
     end,
   },
-
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = {
+      filesystem = {
+        filtered_items = {
+          visible = true,
+          show_hidden_count = true,
+          hide_dotfiles = false,
+          hide_gitignored = true,
+          hide_by_name = {
+            -- '.git',
+            -- '.DS_Store',
+            -- 'thumbs.db',
+          },
+          never_show = {},
+        },
+      },
+    },
+  },
   -- change some telescope options and a keymap to browse plugin files
   {
     "nvim-telescope/telescope.nvim",
@@ -76,6 +94,7 @@ return {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts
     opts = {
+      inlay_hints = { enabled = true },
       ---@type lspconfig.options
       servers = {
         neocmake = {},
@@ -116,6 +135,18 @@ return {
           },
         },
         pyright = {},
+
+        tsserver = {
+          settings = {
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+              },
+            },
+          },
+        },
       },
       setup = {
         clangd = function(_, opts)
@@ -150,7 +181,31 @@ return {
       ---@type lspconfig.options
       servers = {
         -- tsserver will be automatically installed with mason and loaded with lspconfig
-        tsserver = {},
+        tsserver = {
+          settings = {
+            typescript = {
+              inlayHints = { -- Nombre correcto (no "inlayNints")
+                includeInlayParameterNameHints = "all",
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+              },
+            },
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+              },
+              suggest = {
+                includeCompletionsWithSnippetText = true,
+                includeAutomaticOptionalChainCompletions = true,
+              },
+            },
+            completions = {
+              completeFunctionCalls = true,
+            },
+          },
+        },
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
@@ -159,6 +214,14 @@ return {
         -- example to setup with typescript.nvim
         tsserver = function(_, opts)
           require("typescript").setup({ server = opts })
+          vim.api.nvim_create_autocmd("LspAttach", {
+            callback = function(args)
+              local client = vim.lsp.get_client_by_id(args.data.client_id)
+              if client.name == "ts_ls" then
+                vim.lsp.inlay_hint.enable(args.buf, true)
+              end
+            end,
+          })
           return true
         end,
         -- Specify * to use this function as a fallback for any server
@@ -173,25 +236,48 @@ return {
 
   -- add more treesitter parsers
   {
-    "nvim-treesitter/nvim-treesitter",
+    "nvim-neo-tree/neo-tree.nvim",
+    cmd = "Neotree",
+    keys = {
+      {
+        "<leader>fe",
+        function()
+          require("neo-tree.command").execute({ toggle = true, dir = require("lazyvim.util").get_root() })
+        end,
+        desc = "Explorer NeoTree (root dir)",
+      },
+      {
+        "<leader>fE",
+        function()
+          require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+        end,
+        desc = "Explorer NeoTree (cwd)",
+      },
+      { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
+      { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+    },
+    deactivate = function()
+      vim.cmd([[Neotree close]])
+    end,
     opts = {
-      ensure_installed = {
-        "c",
-        "cpp",
-        "bash",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        "regex",
-        "tsx",
-        "typescript",
-        "vim",
-        "yaml",
+      filesystem = {
+        bind_to_cwd = false,
+        follow_current_file = true,
+        filtered_items = {
+          visible = true,
+          hide_dotfiles = false,
+          hide_gitignored = false,
+          hide_by_name = {
+            ".DS_Store",
+            "thumbs.db",
+            "node_modules",
+          },
+        },
+      },
+      window = {
+        mappings = {
+          ["<space>"] = "none",
+        },
       },
     },
   },
