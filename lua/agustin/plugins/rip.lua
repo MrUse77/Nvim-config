@@ -1,4 +1,4 @@
--- This file contains the configuration for the nvim-rip-substitute plugin in Neovim.
+-- Tsis file contains the configuration for the nvim-rip-substitute plugin in Neovim.
 
 return {
   -- Plugin: nvim-rip-substitute
