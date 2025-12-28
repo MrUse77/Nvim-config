@@ -1,6 +1,7 @@
 require("agustin.core.options")
 require("agustin.core.keymaps")
-	
+require("agustin.core.autocmds")
+
 -- Bootstrap de lazy.nvim (Instalación automática si no existe)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -14,7 +15,5 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
-
 -- Cargar plugins
 require("lazy").setup("agustin.plugins")
