@@ -2,10 +2,8 @@ vim.g.mapleader = " " -- La barra espaciadora es la mejor opción ergonómicvim.
 vim.g.maplocalleader = " "
 local keymap = vim.keymap -- por brevedad
 
-
-
 -- Guardar archivo
-keymap.set("n", "<leader>d", vim.diagnostic.open_float, {desc = "Detalles de errores"})
+keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Detalles de errores" })
 keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 --Config simil a lazy vim
@@ -53,5 +51,12 @@ keymap.set("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 -- Gestión de Buffers (Usando comandos nativos si no quieres instalar Snacks)
-keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
-keymap.set("n", "<leader>bD", "<cmd>bdelete!<cr>", { desc = "Force Delete Buffer" })
+-- Cerrar buffer manteniendo el layout (estilo LazyVim actual)
+keymap.set("n", "<leader>bd", function()
+  Snacks.bufdelete()
+end, { desc = "Delete Buffer" })
+
+-- Si quieres forzar el cierre sin guardar (el clásico :q! pero sin romper el split)
+keymap.set("n", "<leader>bD", function()
+  Snacks.bufdelete.force()
+end, { desc = "Delete Buffer (Force)" })
