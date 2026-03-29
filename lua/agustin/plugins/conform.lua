@@ -19,7 +19,6 @@ return {
       javascript = { "prettier" },
       typescript = { "prettier" },
       c = { "clang-format" },
-      java = { "clang-format" },
     },
   },
 }
