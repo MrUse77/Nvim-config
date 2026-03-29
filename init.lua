@@ -14,6 +14,9 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
+-- Esto hace que la ventana de LazyGit use bordes redondeados si tu terminal lo soporta
+vim.g.lazygit_floating_window_winblend = 0 -- Transparencia (0 a 100)
+vim.g.lazygit_floating_window_border_chars = {'╭','─', '╮', '│', '╯','─', '╰', '│'}
 vim.opt.rtp:prepend(lazypath)
 -- Cargar plugins
 require("lazy").setup("agustin.plugins")

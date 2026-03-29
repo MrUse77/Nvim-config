@@ -5,7 +5,6 @@ local keymap = vim.keymap -- por brevedad
 -- Guardar archivo
 keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Detalles de errores" })
 keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
-
 --Config simil a lazy vim
 
 -- better up/down
@@ -60,3 +59,7 @@ end, { desc = "Delete Buffer" })
 keymap.set("n", "<leader>bD", function()
   Snacks.bufdelete.force()
 end, { desc = "Delete Buffer (Force)" })
+
+--Lazy git
+keymap.set("n", "<leader>gg", ":LazyGit<CR>", { silent = true, desc = "Abrir LazyGit" })
+
