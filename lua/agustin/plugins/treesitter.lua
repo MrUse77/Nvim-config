@@ -25,6 +25,7 @@ return {
     },
     indent = {
       enable = true,
+      disable = { "c", "javascript", "typescript" },
     },
     incremental_selection = {
       enable = true,

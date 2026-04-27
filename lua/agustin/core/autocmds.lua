@@ -4,7 +4,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     local stats = vim.uv.fs_stat(vim.fn.argv(0))
     if stats and stats.type == "directory" then
       -- 2. Abrir Neo-tree
-      require("neo-tree.command").execute({ action = "show", dir = vim.fn.argv(0) })
+      Snacks.explorer({ path = vim.fn.argv(0) })
     end
   end,
 })

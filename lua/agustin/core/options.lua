@@ -26,3 +26,4 @@ vim.opt.foldmethod = "expr" -- Usa una expresión para definir pliegues
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Usa Treesitter como motor
 vim.opt.foldlevel = 99 -- Que los archivos se abran expandidos
 vim.opt.foldcolumn = "1" -- Opcional: muestra una columna a la izquierda con los pliegues
+

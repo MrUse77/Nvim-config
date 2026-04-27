@@ -13,22 +13,29 @@ return {
     })
 
     -- 2. Definición de Capabilities (común para todos)
+		local lspconfig = require("lspconfig")
+		local util = require("lspconfig.util")
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+		-- Definimos la función de detección de raíz por fuera para que sea limpia
+		local custom_root_dir = function(fname)
+			-- Buscamos los archivos de CodeBlocks o el .clangd de la raíz
+			return util.root_pattern('.clangd', 'workspace.cbp', 'Algoritmos.workspace', '.git')(fname)
+				or util.path.dirname(fname) -- Si no hay nada, la carpeta del archivo
+		end
     ----------------------------------------------------------------------
     -- CONFIGURACIÓN DE CLANGD (C++)
     ----------------------------------------------------------------------
     local clangd_opts = {
       capabilities = vim.tbl_deep_extend("force", capabilities, {
-        offsetEncoding = { "utf-8" }, -- Fix crítico de encoding
+        offsetEncoding = { "utf-16" }, -- Fix crítico de encoding
       }),
       cmd = {
         "clangd",
         "--background-index",
         "--clang-tidy",
-        "--header-insertion=iwyu",
+        "--header-insertion=never",
         "--completion-style=detailed",
-        "--function-arg-placeholders",
         "--fallback-style=llvm",
       },
       init_options = {

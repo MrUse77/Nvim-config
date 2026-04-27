@@ -60,6 +60,4 @@ keymap.set("n", "<leader>bD", function()
   Snacks.bufdelete.force()
 end, { desc = "Delete Buffer (Force)" })
 
---Lazy git
-keymap.set("n", "<leader>gg", ":LazyGit<CR>", { silent = true, desc = "Abrir LazyGit" })
 
