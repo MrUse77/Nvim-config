@@ -8,9 +8,9 @@ return {
   config = function()
     -- 1. Setup Básico de dependencias
     require("mason").setup()
-    require("mason-lspconfig").setup({
-      ensure_installed = { "clangd", "ts_ls"},
-    })
+    -- La instalación de paquetes Mason se centraliza en plugins/mason.lua
+    -- mediante mason-tool-installer.nvim.
+    require("mason-lspconfig").setup()
 
     -- 2. Definición de Capabilities (común para todos)
 		local lspconfig = require("lspconfig")
